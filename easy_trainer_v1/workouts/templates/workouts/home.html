@@ -1,0 +1,22 @@
+{% extends "workouts/base.html" %}
+
+{% block content %}
+
+<h1>Workouts home</h1>
+
+{% for training in trainings %}
+
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ training.author }}</a>
+            <small class="text-muted">{{ training.date_posted }}</small>
+        </div>
+        <h2><a class="article-title" href="#">{{ training.title }}</a></h2>
+        <p class="article-content">{{ training.content }}</p>
+    </div>
+</article>
+
+{% endfor %}
+
+{% endblock content %}
