@@ -1,24 +1,11 @@
 from django.shortcuts import render
+from .models import Training
 
-trainings = [
-    {
-        'author': 'trainer1',
-        'title': 'Training 1',
-        'content': 'First training content',
-        'date_posted': 'August 21, 2018'
-    },
-    {
-        'author': 'trainer2',
-        'title': 'Training 2',
-        'content': 'Secnod training content',
-        'date_posted': 'August 24, 2018'
-    },
-]
 
 # Create your views here.
 def home(request):
     context = {
-        'trainings': trainings
+        'trainings': Training.objects.all()
     }
     return render(request, 'workouts/home.html', context)
 
