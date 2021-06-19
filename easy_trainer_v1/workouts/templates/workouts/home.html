@@ -7,6 +7,7 @@
 {% for training in trainings %}
 
 <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ training.author.profile.image.url }}" alt="author image">
     <div class="media-body">
         <div class="article-metadata">
             <a class="mr-2" href="#">{{ training.author }}</a>
