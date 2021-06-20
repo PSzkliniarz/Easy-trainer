@@ -6,7 +6,7 @@
 
 {% for training in trainings %}
 
-<article class="media content-section">
+<article class="media content-section d-flex">
     <img class="rounded-circle article-img" src="{{ training.author.profile.image.url }}" alt="author image">
     <div class="media-body">
         <div class="article-metadata">
@@ -14,7 +14,7 @@
             <small class="text-muted">{{ training.date_posted }}</small>
         </div>
         <p class="text-muted">{{ training.category }}</p>
-        <h2><a class="article-title" href="#">{{ training.title }}</a></h2>
+        <h2><a class="article-title" href="{% url 'training-detail' training.id %}">{{ training.title }}</a></h2>
         <p class="article-content">{{ training.content }}</p>
     </div>
 </article>
