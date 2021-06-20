@@ -5,7 +5,8 @@ from django.views.generic import (
     ListView, 
     DetailView,
     CreateView,
-    UpdateView
+    UpdateView,
+    DeleteView
 )
 from .models import Training
 
@@ -50,6 +51,19 @@ class TrainingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == training.author:
             return True
         return False
+
+
+class TrainingDeletetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Training
+    success_url='/'
+    
+    def test_func(self):
+        training = self.get_object()
+        if self.request.user == training.author:
+            return True
+        return False
+
+
 
 def about(request):
     return render(request, 'workouts/about.html', {'title':'About'})
