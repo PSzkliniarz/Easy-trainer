@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Workouts home</h1>
+<h1>{{ view.kwargs.username }}'s trainings : ( {{ page_obj.paginator.count }} )</h1>
 
 {% for training in trainings %}
 

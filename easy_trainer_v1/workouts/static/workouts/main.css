@@ -16,6 +16,12 @@ body {
     background-color: #01937C;
   }
   
+  .btn {
+    color: #01937C;
+    border-color: #01937C;
+  }
+  
+  
   .site-header .navbar-nav .nav-link {
     color: #cbd5db;
   }
