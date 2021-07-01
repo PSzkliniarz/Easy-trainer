@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.urls.base import reverse
+from django.urls.base import reverse, reverse_lazy
 from django.views.generic import (
     ListView, 
     DetailView,
@@ -9,7 +9,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Training
+from .models import Training, Comment
+from .forms import AddCommentForm
 
 
 # Create your views here.
@@ -23,6 +24,7 @@ class TrainingListView(ListView):
     model = Training
     template_name = 'workouts/home.html'
     context_object_name = 'trainings'
+    ordering = ['-date_posted']
     paginate_by = 3
 
 
@@ -30,7 +32,6 @@ class UserTrainingListView(ListView):
     model = Training
     template_name = 'workouts/user_trainings.html'
     context_object_name = 'trainings'
-    ordering = ['-date_posted']
     paginate_by = 3
 
     def get_queryset(self):
@@ -76,6 +77,19 @@ class TrainingDeletetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    template_name = 'workouts/add_comment.html'
+    form_class = AddCommentForm
+    
+    def form_valid(self, form):
+        form.instance.name = self.request.user
+        form.instance.training_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
 
 
 def about(request):
