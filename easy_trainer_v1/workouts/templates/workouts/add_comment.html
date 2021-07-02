@@ -1,0 +1,27 @@
+{% extends "workouts/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>Add comment</h1>
+
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">
+                Crete new training
+            </legend>
+
+            {{ form|crispy }}
+
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Add Comment!</button>
+        </div>
+    </form>
+    
+</div>
+
+{% endblock content %}  
