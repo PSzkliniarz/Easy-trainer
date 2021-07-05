@@ -1,3 +1,4 @@
+from PIL import Image
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -9,11 +10,10 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Training, Comment
-from .forms import AddCommentForm
+from .models import Training, Comment, Image
+from .forms import AddCommentForm, AddImageForm
 
 
-# Create your views here.
 def home(request):
     context = {
         'trainings': Training.objects.all()
@@ -42,10 +42,27 @@ class UserTrainingListView(ListView):
 class TrainingDetailtView(DetailView):
     model = Training
 
+# class AddImageToTraining(LoginRequiredMixin, CreateView):
+#     model = Image
+#     fields = ['images']
+
+#     def get_success_url(self):
+#         return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+
+
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(AddImageToTraining, self).get_context_data(**kwargs)
+    #     context['training'] = self.kwargs.get('training')
+    #     print(context['training'])
+    #     return context
+
+    
+
 
 class TrainingCreateView(LoginRequiredMixin, CreateView):
     model = Training
-    fields = ['title', 'content', 'category', 'rating']
+    fields = ['title', 'content', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -54,7 +71,7 @@ class TrainingCreateView(LoginRequiredMixin, CreateView):
 
 class TrainingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Training
-    fields = ['title', 'content', 'category', 'rating']
+    fields = ['title', 'content', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -82,6 +99,21 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     template_name = 'workouts/add_comment.html'
     form_class = AddCommentForm
+    
+    def form_valid(self, form):
+        form.instance.name = self.request.user
+        form.instance.training_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+
+
+
+class ImageCreateView(LoginRequiredMixin, CreateView):
+    model = Image
+    template_name = 'workouts/add_image.html'
+    form_class = AddImageForm
     
     def form_valid(self, form):
         form.instance.name = self.request.user

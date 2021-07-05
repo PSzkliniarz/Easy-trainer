@@ -11,10 +11,13 @@
         <div class="article-metadata">
             <a class="mr-2" href="{% url 'user-trainings' object.author.username %}">{{ object.author }}</a>
             <small class="text-muted">{{ object.date_posted }}</small>
+            <small class="text-muted">{{ object.id }}</small>
             {% if object.author == user %}
             <div>
                 <a class="btn btn-secondary btn-sm my-1" href="{% url 'training-update' object.id %}">Update</a>
                 <a class="btn btn-danger btn-sm my-1" href="{% url 'training-delete' object.id %}">Delete</a>
+
+                <a class="btn btn-danger btn-sm my-1" href="{% url 'add_image' training.pk %}">Add Image</a>
             </div>
             {% endif %}
         </div>
