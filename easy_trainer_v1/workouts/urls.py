@@ -7,7 +7,8 @@ from .views import (
     TrainingUpdateView,
     TrainingDeletetView,
     CommentCreateView,
-    ImageCreateView
+    ImageCreateView,
+    VideoCreateView
 )
 from . import views
 
@@ -25,5 +26,6 @@ urlpatterns = [
 
     path('training/<int:pk>/comment/', CommentCreateView.as_view(), name='add_comment'),
     path('training/<int:pk>/add_image/', ImageCreateView.as_view(), name='add_image'),
+    path('training/<int:pk>/add_video/', VideoCreateView.as_view(), name='add_video'),
 
 ]

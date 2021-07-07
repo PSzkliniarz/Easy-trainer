@@ -42,6 +42,14 @@ class Image(models.Model):
         related_name="images" 
     )
     images = models.FileField(upload_to = 'images/')
+
+    label = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name=_('Etykieta zdjecia'),
+        help_text=_('Etykieta do danego zdjecia')
+    )
  
     def __str__(self):
         return self.training.title
@@ -54,6 +62,14 @@ class Video(models.Model):
         related_name="videos" 
     )
     video = models.FileField(upload_to="video/%y")
+
+    label = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name=_('Etykieta filmu'),
+        help_text=_('Etykieta do danego filmu')
+    )
 
     def __str__(self):
         return self.training.title

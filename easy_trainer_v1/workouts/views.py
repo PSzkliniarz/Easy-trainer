@@ -10,8 +10,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Training, Comment, Image
-from .forms import AddCommentForm, AddImageForm
+from .models import Training, Comment, Image, Video
+from .forms import AddCommentForm, AddImageForm, AddVideoForm
 
 
 def home(request):
@@ -41,23 +41,6 @@ class UserTrainingListView(ListView):
 
 class TrainingDetailtView(DetailView):
     model = Training
-
-# class AddImageToTraining(LoginRequiredMixin, CreateView):
-#     model = Image
-#     fields = ['images']
-
-#     def get_success_url(self):
-#         return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
-
-
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(AddImageToTraining, self).get_context_data(**kwargs)
-    #     context['training'] = self.kwargs.get('training')
-    #     print(context['training'])
-    #     return context
-
-    
 
 
 class TrainingCreateView(LoginRequiredMixin, CreateView):
@@ -122,6 +105,23 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+
+    
+
+class VideoCreateView(LoginRequiredMixin, CreateView):
+    model = Video
+    template_name = 'workouts/add_video.html'
+    form_class = AddVideoForm
+    
+    def form_valid(self, form):
+        form.instance.name = self.request.user
+        form.instance.training_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+
+    
 
 
 def about(request):
