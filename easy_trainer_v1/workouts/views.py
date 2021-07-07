@@ -1,3 +1,4 @@
+from PIL import Image
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -9,11 +10,10 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Training, Comment
-from .forms import AddCommentForm
+from .models import Training, Comment, Image, Video
+from .forms import AddCommentForm, AddImageForm, AddVideoForm
 
 
-# Create your views here.
 def home(request):
     context = {
         'trainings': Training.objects.all()
@@ -45,7 +45,7 @@ class TrainingDetailtView(DetailView):
 
 class TrainingCreateView(LoginRequiredMixin, CreateView):
     model = Training
-    fields = ['title', 'content', 'category', 'rating']
+    fields = ['title', 'content', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -54,7 +54,7 @@ class TrainingCreateView(LoginRequiredMixin, CreateView):
 
 class TrainingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Training
-    fields = ['title', 'content', 'category', 'rating']
+    fields = ['title', 'content', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -90,6 +90,38 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+
+
+
+class ImageCreateView(LoginRequiredMixin, CreateView):
+    model = Image
+    template_name = 'workouts/add_image.html'
+    form_class = AddImageForm
+    
+    def form_valid(self, form):
+        form.instance.name = self.request.user
+        form.instance.training_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+
+    
+
+class VideoCreateView(LoginRequiredMixin, CreateView):
+    model = Video
+    template_name = 'workouts/add_video.html'
+    form_class = AddVideoForm
+    
+    def form_valid(self, form):
+        form.instance.name = self.request.user
+        form.instance.training_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+
+    
 
 
 def about(request):

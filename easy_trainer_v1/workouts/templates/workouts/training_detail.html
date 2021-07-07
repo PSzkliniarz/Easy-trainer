@@ -11,10 +11,14 @@
         <div class="article-metadata">
             <a class="mr-2" href="{% url 'user-trainings' object.author.username %}">{{ object.author }}</a>
             <small class="text-muted">{{ object.date_posted }}</small>
+            <small class="text-muted">{{ object.id }}</small>
             {% if object.author == user %}
             <div>
                 <a class="btn btn-secondary btn-sm my-1" href="{% url 'training-update' object.id %}">Update</a>
                 <a class="btn btn-danger btn-sm my-1" href="{% url 'training-delete' object.id %}">Delete</a>
+
+                <a class="btn btn-danger btn-sm my-1" href="{% url 'add_image' training.pk %}">Add Image</a>
+                <a class="btn btn-danger btn-sm my-1" href="{% url 'add_video' training.pk %}">Add Video</a>
             </div>
             {% endif %}
         </div>
@@ -24,6 +28,46 @@
     </div>
 </article>
 
+<div class="mx-1">
+    <h3>Zdjęcia</h3>
+    <hr>
+    {% if not training.images.all %}
+        <h2>Brak zdjec</h2>
+        
+        {% else %}
+        {% for img in training.images.all %}
+            {% if img.label != None %}
+            <p class="mx-auto">{{ img.label }}</p>
+            {% endif %}
+        <img class="img-fluid mb-5" src="{{ img.images.url }}" alt="author image">
+
+        {% endfor %}
+
+    {% endif %}
+</div>
+<div class="mx-1">
+    <h3>Filmy</h3>
+    <hr>
+    {% if not training.videos.all %}
+        <h2>Brak filmów</h2>
+        
+        {% else %}
+        {% for video in training.videos.all %}
+            {% if video.label != None %}
+            <p class="mx-auto">{{ video.label }}</p>
+            {% endif %}
+        <!-- <img class="img-fluid mb-5" src="{{ video.images.url }}" alt="author video"> -->
+        <div class="conteiner">
+
+            <video class="embed-responsive embed-responsive-16by9" controls="controls">
+                <source src="{{ video.video.url }}" type="video/mp4" />
+            </video>
+        </div>
+
+        {% endfor %}
+
+    {% endif %}
+</div>
 <div>
     <h3>Comments</h3>
     <hr>
@@ -31,7 +75,7 @@
         <p>No comment yet.</p>
         <a href="{% url 'add_comment' training.pk %}">Add first comment</a>
         
-        {% else %}
+    {% else %}
         {% for comment in training.comments.all %}
             <strong>{{ comment.name }} - {{ comment.date_added }}</strong>
             </br>
