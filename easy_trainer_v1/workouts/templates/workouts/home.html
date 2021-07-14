@@ -15,6 +15,7 @@
         </div>
         <p class="text-muted">{{ training.category }}</p>
         <h2><a class="article-title" href="{% url 'training-detail' training.id %}">{{ training.title }}</a></h2>
+        <p>Średnia ocena: {{ training.avg_of_ratings }} </p>
         <p class="article-content">{{ training.content }}</p>
     </div>
 </article>
