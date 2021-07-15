@@ -71,21 +71,24 @@
     {% endif %}
 </div>
 <div>
-    <h3>Comments</h3>
+    <h3>Komentarze</h3>
     <hr>
     {% if not training.comments.all %}
         <p>No comment yet.</p>
-        <a href="{% url 'add_comment' training.pk %}">Add first comment</a>
+        <a href="{% url 'add_comment' training.pk %}">Dodaj pierwszy komentarz</a>
         
     {% else %}
         {% for comment in training.comments.all %}
             <strong>{{ comment.name }} - {{ comment.date_added }}</strong>
             </br>
             <p>{{ comment.comment_text }}</p>
+            {% if object.author == user %}
+                <a href="{% url 'comment-delete' training.pk comment.id %}">Usuń ten komentarz</a>
+            {% endif %}
             <hr>
         {% endfor %}
         {% if user.is_authenticated %}
-            <a href="{% url 'add_comment' training.pk %}">Add comment</a>
+            <a href="{% url 'add_comment' training.pk %}">Dodaj komentarz</a>
         {% endif %}
     {% endif %}
 </div>
