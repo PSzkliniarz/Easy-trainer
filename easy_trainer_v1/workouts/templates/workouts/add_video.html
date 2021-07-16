@@ -4,21 +4,21 @@
 
 {% block content %}
 
-<h1>Add Video</h1>
+<h1>Dodaj Video</h1>
 
 <div class="content-section">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">
-                Add Video
+                Dodaj Video
             </legend>
 
             {{ form|crispy }}
 
         </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Add Video!</button>
+        <div class="form-group justify-content-center">
+            <button class="btn btn-outline-info" type="submit">Dodaj Video!</button>
         </div>
     </form>
     

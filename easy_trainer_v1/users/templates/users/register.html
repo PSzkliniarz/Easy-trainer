@@ -10,20 +10,20 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">
-                    Join Today
+                    Dołącz już dzisiaj
                 </legend>
 
                 {{ form|crispy }}
 
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Sing Up</button>
+                <button class="btn btn-outline-info" type="submit">Załóż konto</button>
             </div>
         </form>
         <div class="border-top pt-3">
             <small class="text-muted">
-                Already Have An Account?
-                <a href="{% url 'register' %}" class="ml-2">Sing In</a>
+                Masz już konto?
+                <a href="{% url 'register' %}" class="ml-2">Zaloguj</a>
             </small>
         </div>
     </div>

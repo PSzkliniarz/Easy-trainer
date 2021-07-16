@@ -4,21 +4,20 @@
 
 {% block content %}
 
-<h1>Add Image</h1>
 
 <div class="content-section">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">
-                Crete image
+                Dodaj zdjęcie
             </legend>
 
             {{ form|crispy }}
 
         </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Add Image!</button>
+        <div class="form-group justify-content-center">
+            <button class="btn btn-outline-info" type="submit">Dodaj Zdjęcie!</button>
         </div>
     </form>
     

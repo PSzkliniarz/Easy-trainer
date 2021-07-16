@@ -2,21 +2,23 @@
 
 {% block content %}
 
-<h1>Workouts home</h1>
+<h1>Treningi</h1>
 
 {% for training in trainings %}
 
 <article class="media content-section d-flex">
     <img class="rounded-circle article-img" src="{{ training.author.profile.image.url }}" alt="author image">
-    <div class="media-body">
+    <div class="media-body col-10 col-lg-11 ">
         <div class="article-metadata">
             <a class="mr-2" href="{% url 'user-trainings' training.author.username %}">{{ training.author }}</a>
             <small class="text-muted">{{ training.date_posted }}</small>
+            <div class="d-flex justify-content-end">
+              <p class="text-muted">{{ training.category }}</p>
+              <p class="mx-2">Średnia ocena: {{ training.avg_of_ratings }} </p>
+            </div>
         </div>
-        <p class="text-muted">{{ training.category }}</p>
         <h2><a class="article-title" href="{% url 'training-detail' training.id %}">{{ training.title }}</a></h2>
-        <p>Średnia ocena: {{ training.avg_of_ratings }} </p>
-        <p class="article-content">{{ training.content }}</p>
+        <h4 class="article-title">{{ training.description }}</h4>
     </div>
 </article>
 
@@ -24,7 +26,7 @@
 
 {% if is_paginated %}
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center ">
 
       {% if page_obj.has_previous %}
         <a class="btn btn-outline-info mb-4" href="?page=1">|<</a>
