@@ -1,6 +1,6 @@
 from PIL import Image
 from django import forms
-from .models import Comment, Image, Video
+from .models import Comment, Image, Video, Rating
 
 class AddCommentForm(forms.ModelForm):
 
@@ -19,3 +19,9 @@ class AddVideoForm(forms.ModelForm):
     class Meta:
         model = Video
         fields = ['video', 'label']
+
+class AddRatingForm(forms.ModelForm):
+
+    class Meta:
+        model = Rating
+        fields = ['rating']

@@ -1,4 +1,5 @@
 from PIL import Image
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -10,8 +11,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Training, Comment, Image, Video
-from .forms import AddCommentForm, AddImageForm, AddVideoForm
+from .models import Rating, Training, Comment, Image, Video
+from .forms import AddCommentForm, AddImageForm, AddVideoForm, AddRatingForm
 
 
 def home(request):
@@ -88,6 +89,20 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         form.instance.training_id = self.kwargs['pk']
         return super().form_valid(form)
 
+
+    def get_success_url(self):
+        return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+
+class RatingCreateView(LoginRequiredMixin, CreateView):
+    model = Rating
+    template_name = 'workouts/add_rating.html'
+    form_class = AddRatingForm
+    
+    def form_valid(self, form):
+        form.instance.rating_user = self.request.user
+        form.instance.rating_training_id = self.kwargs['pk']
+        return super().form_valid(form)
+    
     def get_success_url(self):
         return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
 

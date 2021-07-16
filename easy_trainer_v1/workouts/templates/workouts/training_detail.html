@@ -2,8 +2,7 @@
 
 {% block content %}
 
-<h1>Workout detail</h1>
-
+<h1 class="article-title" href="#">{{ object.title }}</h1>
 
 <article class="media content-section d-flex">
     <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" alt="author image">
@@ -19,11 +18,14 @@
 
                 <a class="btn btn-danger btn-sm my-1" href="{% url 'add_image' training.pk %}">Add Image</a>
                 <a class="btn btn-danger btn-sm my-1" href="{% url 'add_video' training.pk %}">Add Video</a>
+
+                
             </div>
             {% endif %}
+            <p>Średnia ocena: {{ object.avg_of_ratings }} </p>
+            <a class="btn btn-danger btn-sm my-1" href="{% url 'add_rating' training.pk %}">Add Video</a>
         </div>
         <p class="text-muted">{{ object.category }}</p>
-        <h2 class="article-title" href="#">{{ object.title }}</h2>
         <p class="article-content">{{ object.content }}</p>
     </div>
 </article>
