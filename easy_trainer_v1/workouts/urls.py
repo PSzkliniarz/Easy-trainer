@@ -10,7 +10,10 @@ from .views import (
     RatingCreateView,
     ImageCreateView,
     VideoCreateView,
-    CommentDeletetView
+    CommentDeletetView,
+    ImageDeletetView,
+    VideoDeletetView
+    
 )
 from . import views
 
@@ -25,7 +28,10 @@ urlpatterns = [
     path('training/new/', TrainingCreateView.as_view(), name='training-create'),
     path('training/<int:pk>/update/', TrainingUpdateView.as_view(), name='training-update'),
     path('training/<int:pk>/delete/', TrainingDeletetView.as_view(), name='training-delete'),
+    
     path('training/<int:pk>/comment_delete/<int:comment_pk>/', CommentDeletetView.as_view(), name='comment-delete'),
+    path('training/<int:pk>/image_delete/<int:image_pk>/', ImageDeletetView.as_view(), name='image-delete'),
+    path('training/<int:pk>/video_delete/<int:video_pk>/', VideoDeletetView.as_view(), name='video-delete'),
 
     path('training/<int:pk>/comment/', CommentCreateView.as_view(), name='add_comment'),
     path('training/<int:pk>/rating/', RatingCreateView.as_view(), name='add_rating'),

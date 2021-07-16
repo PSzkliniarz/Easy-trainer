@@ -13,17 +13,17 @@
             <small class="text-muted">{{ object.id }}</small>
             {% if object.author == user %}
             <div>
-                <a class="btn btn-secondary btn-sm my-1" href="{% url 'training-update' object.id %}">Update</a>
-                <a class="btn btn-danger btn-sm my-1" href="{% url 'training-delete' object.id %}">Delete</a>
+                <a class="btn btn-secondary btn-sm my-1" href="{% url 'training-update' object.id %}">Zmień</a>
+                <a class="btn btn-danger btn-sm my-1" href="{% url 'training-delete' object.id %}">Usuń</a>
 
-                <a class="btn btn-danger btn-sm my-1" href="{% url 'add_image' training.pk %}">Add Image</a>
-                <a class="btn btn-danger btn-sm my-1" href="{% url 'add_video' training.pk %}">Add Video</a>
+                <a class="btn btn-danger btn-sm my-1" href="{% url 'add_image' training.pk %}">Dodaj Zdjęcie</a>
+                <a class="btn btn-danger btn-sm my-1" href="{% url 'add_video' training.pk %}">Dodaj Video</a>
 
                 
             </div>
             {% endif %}
             <p>Średnia ocena: {{ object.avg_of_ratings }} </p>
-            <a class="btn btn-danger btn-sm my-1" href="{% url 'add_rating' training.pk %}">Add Video</a>
+            <a class="btn btn-danger btn-sm my-1" href="{% url 'add_rating' training.pk %}">Dodaj ocenę</a>
         </div>
         <p class="text-muted">{{ object.category }}</p>
         <p class="article-content">{{ object.content }}</p>
@@ -31,7 +31,7 @@
 </article>
 
 <div class="mx-1">
-    <h3>Zdjęcia</h3>
+    
     <hr>
     {% if not training.images.all %}
         <h2>Brak zdjec</h2>
@@ -43,12 +43,16 @@
             {% endif %}
         <img class="img-fluid mb-5" src="{{ img.images.url }}" alt="author image">
 
+        {% if object.author == user %}
+                <p><a href="{% url 'image-delete' training.pk img.id %}">Usuń to zdjęcie</a></p>
+        {% endif %}
+
         {% endfor %}
 
     {% endif %}
 </div>
 <div class="mx-1">
-    <h3>Filmy</h3>
+    
     <hr>
     {% if not training.videos.all %}
         <h2>Brak filmów</h2>
@@ -59,12 +63,16 @@
             <p class="mx-auto">{{ video.label }}</p>
             {% endif %}
         <!-- <img class="img-fluid mb-5" src="{{ video.images.url }}" alt="author video"> -->
-        <div class="conteiner">
+        <div class="conteiner d-flex justify-content-center">
 
             <video class="embed-responsive embed-responsive-16by9" controls="controls">
                 <source src="{{ video.video.url }}" type="video/mp4" />
             </video>
         </div>
+
+        {% if object.author == user %}
+                <a href="{% url 'video-delete' training.pk video.id %}">Usuń to video</a>
+        {% endif %}
 
         {% endfor %}
 
@@ -83,7 +91,7 @@
             </br>
             <p>{{ comment.comment_text }}</p>
             {% if object.author == user %}
-                <a href="{% url 'comment-delete' training.pk comment.id %}">Usuń ten komentarz</a>
+                <p><a href="{% url 'comment-delete' training.pk comment.id %}">Usuń ten komentarz</a></p>
             {% endif %}
             <hr>
         {% endfor %}

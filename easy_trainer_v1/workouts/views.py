@@ -92,6 +92,34 @@ class CommentDeletetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         success_url = reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
         return success_url
 
+class ImageDeletetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Image
+    pk_url_kwarg = 'image_pk' 
+    
+    def test_func(self):
+        deleter = self.get_object()
+        if self.request.user == deleter.training.author:
+            return True
+        return False
+
+    def get_success_url(self):
+        success_url = reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+        return success_url
+
+class VideoDeletetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Video
+    pk_url_kwarg = 'video_pk' 
+    
+    def test_func(self):
+        deleter = self.get_object()
+        if self.request.user == deleter.training.author:
+            return True
+        return False
+
+    def get_success_url(self):
+        success_url = reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+        return success_url
+
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment

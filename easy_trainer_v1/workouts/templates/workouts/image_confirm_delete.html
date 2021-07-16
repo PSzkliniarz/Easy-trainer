@@ -1,0 +1,25 @@
+
+{% extends "workouts/base.html" %}
+
+ 
+{% block content %}
+
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Usuwanie zdjęcia
+                </legend>
+                <h2>Czy na pewno chcesz usunąć zdjęcie </h2>
+                <img class="img-fluid mb-5" src="{{ object.images.url }}" alt="author image">
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Usuń</button>
+                <a class="btn btn-outline-secondary" href="{% url 'training-detail' object.training.id %}">Anuluj</a>
+            </div>
+        </form>
+        
+    </div>
+    
+{% endblock content %}
