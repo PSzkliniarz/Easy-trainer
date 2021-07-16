@@ -2,21 +2,24 @@
 
 {% block content %}
 
-<h1>{{ view.kwargs.username }}'s trainings : ( {{ page_obj.paginator.count }} )</h1>
+<h1>Treningi użytkownika {{ view.kwargs.username }} : ( {{ page_obj.paginator.count }} )</h1>
 
 {% for training in trainings %}
 
 <article class="media content-section d-flex">
     <img class="rounded-circle article-img" src="{{ training.author.profile.image.url }}" alt="author image">
-    <div class="media-body">
-        <div class="article-metadata">
-            <a class="mr-2" href="{% url 'user-trainings' training.author.username %}">{{ training.author }}</a>
-            <small class="text-muted">{{ training.date_posted }}</small>
-        </div>
-        <p class="text-muted">{{ training.category }}</p>
-        <h2><a class="article-title" href="{% url 'training-detail' training.id %}">{{ training.title }}</a></h2>
-        <p class="article-content">{{ training.content }}</p>
-    </div>
+    <div class="media-body col-10 col-lg-11 ">
+      <div class="article-metadata">
+          <a class="mr-2" href="{% url 'user-trainings' training.author.username %}">{{ training.author }}</a>
+          <small class="text-muted">{{ training.date_posted }}</small>
+          <div class="d-flex justify-content-end">
+            <p class="text-muted mx-4">{{ training.category }}</p>
+            <p class="ml-4">Średnia ocena: {{ training.avg_of_ratings }} </p>
+          </div>
+      </div>
+      <h2><a class="article-title" href="{% url 'training-detail' training.id %}">{{ training.title }}</a></h2>
+      <h4 class="article-title">{{ training.description }}</h4>
+  </div>
 </article>
 
 {% endfor %}

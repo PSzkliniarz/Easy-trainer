@@ -4,8 +4,6 @@
 
 {% block content %}
 
-<h1>Add comment</h1>
-
 <div class="content-section">
     <form method="POST">
         {% csrf_token %}
@@ -13,11 +11,12 @@
             <legend class="border-bottom mb-4">
                 Oceń trening
             </legend>
+            <p style="color:red">Każdy trening możesz ocenić tylko raz.</p>
 
             {{ form|crispy }}
 
         </fieldset>
-        <div class="form-group">
+        <div class="form-group d-flex justify-content-center">
             <button class="btn btn-outline-info" type="submit">Dodaj ocenę!</button>
         </div>
     </form>

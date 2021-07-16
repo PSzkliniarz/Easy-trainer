@@ -23,9 +23,11 @@
             </div>
             {% endif %}
             <p>Średnia ocena: {{ object.avg_of_ratings }} </p>
+
             <a class="btn btn-danger btn-sm my-1" href="{% url 'add_rating' training.pk %}">Dodaj ocenę</a>
         </div>
         <p class="text-muted">{{ object.category }}</p>
+        <p class="article-content">{{ object.description }}</p>
         <p class="article-content">{{ object.content }}</p>
     </div>
 </article>
@@ -33,10 +35,8 @@
 <div class="mx-1">
     
     <hr>
-    {% if not training.images.all %}
-        <h2>Brak zdjec</h2>
-        
-        {% else %}
+    {% if training.images.all %}
+
         {% for img in training.images.all %}
             {% if img.label != None %}
             <p class="mx-auto">{{ img.label }}</p>
@@ -54,10 +54,8 @@
 <div class="mx-1">
     
     <hr>
-    {% if not training.videos.all %}
-        <h2>Brak filmów</h2>
-        
-        {% else %}
+    {% if training.videos.all %}
+
         {% for video in training.videos.all %}
             {% if video.label != None %}
             <p class="mx-auto">{{ video.label }}</p>

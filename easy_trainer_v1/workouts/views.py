@@ -1,8 +1,11 @@
 from PIL import Image
 from django.contrib import messages
+from django.db.utils import Error
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.urls.base import reverse, reverse_lazy
 from django.views.generic import (
     ListView, 
@@ -46,7 +49,7 @@ class TrainingDetailtView(DetailView):
 
 class TrainingCreateView(LoginRequiredMixin, CreateView):
     model = Training
-    fields = ['title', 'content', 'category']
+    fields = ['title', 'description', 'content', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -55,7 +58,7 @@ class TrainingCreateView(LoginRequiredMixin, CreateView):
 
 class TrainingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Training
-    fields = ['title', 'content', 'category']
+    fields = ['title', 'description', 'content', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -129,7 +132,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.name = self.request.user
         form.instance.training_id = self.kwargs['pk']
-        return super().form_valid(form)
+        super().form_valid(form)
 
 
     def get_success_url(self):
@@ -144,9 +147,13 @@ class RatingCreateView(LoginRequiredMixin, CreateView):
         form.instance.rating_user = self.request.user
         form.instance.rating_training_id = self.kwargs['pk']
         return super().form_valid(form)
-    
+  
+            
     def get_success_url(self):
         return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
+    
+    def form_invalid(self, form):
+        return HttpResponseRedirect(self.get_success_url())
 
 
 
