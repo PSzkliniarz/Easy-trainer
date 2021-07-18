@@ -11,7 +11,7 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}! Now you can log in')
+            messages.success(request, f'Stworzono konto dla {username}! Teraz możesz się zalogować.')
             return redirect('login')
     else:
         form = UserRegisterForm()
@@ -27,7 +27,7 @@ def profile(request):
             u_form.save()
             p_form.save()
 
-        messages.success(request, f'Your account has been updated!')
+        messages.success(request, f'Twoje konto zostało zaktualizowane!')
         return redirect('profile')
 
     else:

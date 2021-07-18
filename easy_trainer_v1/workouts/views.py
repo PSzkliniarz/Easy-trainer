@@ -86,8 +86,8 @@ class CommentDeletetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     pk_url_kwarg = 'comment_pk' 
     
     def test_func(self):
-        deleter = self.get_object()
-        if self.request.user == deleter.training.author:
+        comment = self.get_object()
+        if self.request.user == comment.training.author:
             return True
         return False
 
@@ -100,8 +100,8 @@ class ImageDeletetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     pk_url_kwarg = 'image_pk' 
     
     def test_func(self):
-        deleter = self.get_object()
-        if self.request.user == deleter.training.author:
+        image = self.get_object()
+        if self.request.user == image.training.author:
             return True
         return False
 
@@ -114,8 +114,8 @@ class VideoDeletetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     pk_url_kwarg = 'video_pk' 
     
     def test_func(self):
-        deleter = self.get_object()
-        if self.request.user == deleter.training.author:
+        video = self.get_object()
+        if self.request.user == video.training.author:
             return True
         return False
 
@@ -132,7 +132,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.name = self.request.user
         form.instance.training_id = self.kwargs['pk']
-        super().form_valid(form)
+        return super().form_valid(form)
 
 
     def get_success_url(self):
@@ -151,13 +151,10 @@ class RatingCreateView(LoginRequiredMixin, CreateView):
             
     def get_success_url(self):
         return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
-    
-    def form_invalid(self, form):
-        return HttpResponseRedirect(self.get_success_url())
 
 
 
-class ImageCreateView(LoginRequiredMixin, CreateView):
+class ImageCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Image
     template_name = 'workouts/add_image.html'
     form_class = AddImageForm
@@ -167,12 +164,18 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
         form.instance.training_id = self.kwargs['pk']
         return super().form_valid(form)
 
+    def test_func(self):
+        training_auth = Training.objects.filter(id=self.kwargs['pk']).values_list('author', flat=True)[0]
+        if self.request.user.id == training_auth:
+            return True
+        return False
+
     def get_success_url(self):
         return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})
 
     
 
-class VideoCreateView(LoginRequiredMixin, CreateView):
+class VideoCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Video
     template_name = 'workouts/add_video.html'
     form_class = AddVideoForm
@@ -181,6 +184,12 @@ class VideoCreateView(LoginRequiredMixin, CreateView):
         form.instance.name = self.request.user
         form.instance.training_id = self.kwargs['pk']
         return super().form_valid(form)
+
+    def test_func(self):
+        training_auth = Training.objects.filter(id=self.kwargs['pk']).values_list('author', flat=True)[0]
+        if self.request.user.id == training_auth:
+            return True
+        return False
 
     def get_success_url(self):
         return reverse_lazy('training-detail', kwargs={'pk': self.kwargs['pk']})

@@ -35,7 +35,7 @@
                 {% if user.is_authenticated %}
                  <a class="nav-item nav-link" href="{% url 'training-create' %}">Nowy Trening</a>
                  <a class="nav-item nav-link" href="{% url 'logout' %}">Wyloguj</a>
-                 <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                 <a class="nav-item nav-link" href="{% url 'profile' %}">Profil</a>
                 {% else %}
                   <a class="nav-item nav-link" href="{% url 'login' %}">Zaloguj</a>
                   <a class="nav-item nav-link" href="{% url 'register' %}">Zarejestruj</a>

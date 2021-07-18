@@ -14,7 +14,11 @@
           <small class="text-muted">{{ training.date_posted }}</small>
           <div class="d-flex justify-content-end">
             <p class="text-muted mx-4">{{ training.category }}</p>
-            <p class="ml-4">Średnia ocena: {{ training.avg_of_ratings }} </p>
+            {% if training.avg_of_ratings == 0 %}
+            <p class="mx-2">Brak ocen.</p>
+            {% else %}
+            <p class="mx-2">Średnia ocena: {{ training.avg_of_ratings }} </p>
+            {% endif %}
           </div>
       </div>
       <h2><a class="article-title" href="{% url 'training-detail' training.id %}">{{ training.title }}</a></h2>
