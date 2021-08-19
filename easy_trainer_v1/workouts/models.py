@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from django.utils.translation import gettext_lazy as _ 
+
 class Training(models.Model):
     title = models.CharField(
         max_length=100,
@@ -17,7 +18,14 @@ class Training(models.Model):
         blank=True
     )
     content = models.TextField()
-    date_posted = models.DateTimeField(verbose_name=_('Data publikacji'), auto_now=True, editable=False)
+    author = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE
+        )
+    date_posted = models.DateTimeField(
+        verbose_name=_('Data publikacji'), 
+        auto_now=True, 
+        editable=False)
 
     CATEGORY_AMATEUR = 'Amator'
     CATEGORY_EASY = 'Podstawowy'
@@ -29,10 +37,7 @@ class Training(models.Model):
         (CATEGORY_MEDIUM, _('Średni')),
         (CATEGORY_HARD, _('Zaawansowany')),
     )
-
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
-
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def no_of_ratings(self):
         ratings = Rating.objects.filter(rating_training=self)
@@ -100,10 +105,7 @@ class Comment(models.Model):
     name = models.CharField(max_length=255)
     comment_text = models.TextField()
     date_added = models.DateTimeField(verbose_name=_('Data komentarza'), auto_now=True, editable=False)
-
-
-    
-    
+  
     def __str__(self):
         return '%s - %s' % (self.training.title, self.name)
 

@@ -3,10 +3,9 @@
 {% block content %}
 
 <h1 class="article-title" href="#">{{ object.title }}</h1>
-
 <article class="media content-section d-flex">
     <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" alt="author image">
-    <div class="media-body">
+    <div class="media-body col-10 col-lg-11">
         <div class="article-metadata">
             <a class="mr-2" href="{% url 'user-trainings' object.author.username %}">{{ object.author }}</a>
             <small class="text-muted">{{ object.date_posted }}</small>
@@ -15,16 +14,18 @@
             <div>
                 <a class="btn btn-secondary btn-sm my-1" href="{% url 'training-update' object.id %}">Zmień</a>
                 <a class="btn btn-danger btn-sm my-1" href="{% url 'training-delete' object.id %}">Usuń</a>
-
-                <a class="btn btn-danger btn-sm my-1" href="{% url 'add_image' training.pk %}">Dodaj Zdjęcie</a>
-                <a class="btn btn-danger btn-sm my-1" href="{% url 'add_video' training.pk %}">Dodaj Video</a>
-
-                
+                <a class="btn btn-danger btn-sm my-1" href="{% url 'add-image' training.pk %}">Dodaj Zdjęcie</a>
+                <a class="btn btn-danger btn-sm my-1" href="{% url 'add-video' training.pk %}">Dodaj Video</a>              
             </div>
             {% endif %}
-            <p>Średnia ocena: {{ object.avg_of_ratings }} </p>
-
+            {% if object.avg_of_ratings == 0 %}
+            <p class="mx-2">Brak ocen.</p>
+            {% else %}
+            <p class="mx-2">Średnia ocena: {{ object.avg_of_ratings }} </p>
+            {% endif %}
+            {% if object.author != user %}
             <a class="btn btn-danger btn-sm my-1" href="{% url 'add_rating' training.pk %}">Dodaj ocenę</a>
+            {% endif %}
         </div>
         <p class="text-muted">{{ object.category }}</p>
         <p class="article-content">{{ object.description }}</p>
@@ -80,9 +81,7 @@
     <h3>Komentarze</h3>
     <hr>
     {% if not training.comments.all %}
-        <p>No comment yet.</p>
-        <a href="{% url 'add_comment' training.pk %}">Dodaj pierwszy komentarz</a>
-        
+        <a href="{% url 'add_comment' training.pk %}">Dodaj pierwszy komentarz</a>       
     {% else %}
         {% for comment in training.comments.all %}
             <strong>{{ comment.name }} - {{ comment.date_added }}</strong>
