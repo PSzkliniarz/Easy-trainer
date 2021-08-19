@@ -10,7 +10,7 @@
 
 `python -m venv env`
 
-2 Aktuwój środowisko wirtualne
+2 Aktuwuj środowisko wirtualne
 
 'env\Script\activate`
 

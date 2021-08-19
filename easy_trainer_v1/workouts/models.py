@@ -105,10 +105,7 @@ class Comment(models.Model):
     name = models.CharField(max_length=255)
     comment_text = models.TextField()
     date_added = models.DateTimeField(verbose_name=_('Data komentarza'), auto_now=True, editable=False)
-
-
-    
-    
+  
     def __str__(self):
         return '%s - %s' % (self.training.title, self.name)
 
